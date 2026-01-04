@@ -1,10 +1,31 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { supabase } from '../lib/supabase'
 
 const Navigation = () => {
     const { user, signOut } = useAuth();
     const navigate = useNavigate();
+    const [profile, setProfile] = useState(null);
+
+    useEffect(() => {
+        if (user) {
+        loadProfile()
+        }
+    }, [user])
+
+    const loadProfile = async () => {
+        try {
+        const { data } = await supabase
+            .from('profiles')
+            .select('nickname')
+            .eq('id', user.id)
+            .single()
+        setProfile(data)
+        } catch (error) {
+        console.error('Ошибка загрузки профиля:', error)
+        }
+    }
 
     const handleLogout = async () => {
         signOut();
@@ -20,7 +41,7 @@ const Navigation = () => {
             <div>
                 {user ? (
                     <>
-                        <span>Привет {user.email}</span>
+                        <span>Привет {profile?.nickname || user.email}</span>
                         <Link to='/dashboard'>Профиль</Link>
                         <button onClick={handleLogout}>Выйти</button>
                     </>
