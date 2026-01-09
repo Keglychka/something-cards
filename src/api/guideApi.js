@@ -1,7 +1,7 @@
 import { supabase } from '../lib/supabase'
 
 export const PLATFORMS = ['PC', 'PlayStation', 'Xbox', 'Nintendo Switch', 'Mobile', 'Другое']
-export const DIFFICULTIES = ['новичок', 'средний', 'эксперт']
+export const DIFFICULTIES = ['Новичок', 'Средний', 'Эксперт']
 export const CATEGORIES = [
   'Прохождение', 
   'Советы и хитрости', 

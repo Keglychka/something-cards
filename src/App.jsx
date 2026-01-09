@@ -9,7 +9,6 @@ import Dashboard from './pages/Dashboard'
 import GuidePage from "./pages/GuidePage"
 import GuideCreate from "./pages/GuideCreate"
 import './App.css'
-import ProtectedRouter from "./components/ProtectedRouter"
 
 function App() {
   return (
