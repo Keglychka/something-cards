@@ -7,8 +7,9 @@ const ProtectedRouter = ({children}) => {
 
     if(loading) {
         return (
-            <div>
-                Загрузка...
+            <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p>Загрузка...</p>
             </div>
         )
     }

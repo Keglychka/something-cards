@@ -33,23 +33,24 @@ const Navigation = () => {
     }
 
     return (
-        <nav>
-            <div>
-                <Link to='/'>Главная</Link>
+        <nav className="navbar">
+            <div className="navbar-brand">
+                <Link to='/' className="navbar-logo">Игровой Гид</Link>
             </div>
 
-            <div>
+            <div className="navbar-menu">
                 {user ? (
-                    <>
-                        <span>Привет {profile?.nickname || user.email}</span>
-                        <Link to='/dashboard'>Профиль</Link>
-                        <button onClick={handleLogout}>Выйти</button>
-                    </>
+                    <div className="navbar-auth auth-logged-in">
+                        <span className="navbar-greeting">Привет, <span className="username">{profile?.nickname || user.email}</span></span>
+                        <Link to='/guides/create' className='navbar-link btn-create'>Создать гайд</Link>
+                        <Link to='/dashboard' className="navbar-link btn-profile">Профиль</Link>
+                        <button onClick={handleLogout} className="btn-logout">Выйти</button>
+                    </div>
                 ) : (
-                    <>
-                        <Link to='/login'>Войти</Link>
-                        <Link to='/register'>Регистрация</Link>
-                    </>
+                    <div className="navbar-auth auth-logged-out">
+                        <Link to='/login' className="navbar-link btn-login">Войти</Link>
+                        <Link to='/register' className="navbar-link btn-register">Регистрация</Link>
+                    </div>
                 )}
             </div>
         </nav>

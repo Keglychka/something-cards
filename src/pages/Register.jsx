@@ -45,7 +45,7 @@ const Register = () => {
         return;
       }
     } catch (err) {
-
+      console.error('Ошибка проверки никнейма:', err);
     }
 
     setError('');
@@ -59,9 +59,9 @@ const Register = () => {
         throw error;
       }
 
-      setSuccess(`Успешная регистрация. Доброе пожаловать, ${nickname}`);
+      setSuccess(`Успешная регистрация. Добро пожаловать, ${nickname}!`);
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/');
       }, 2000)
     } catch(err) {
       console.error('Ошибка регистрации: ', err);
@@ -79,28 +79,76 @@ const Register = () => {
   }
 
   return (
-    <div>
-      <h1>Регистрация</h1>
-      {error ?? (
-        <div>{error}</div>
-      )}
+    <div className="auth-container">
+      <div className="auth-card">
+        <h1 className="auth-title">Регистрация</h1>
+        
+        {error && (
+          <div className="alert alert-error">{error}</div>
+        )}
 
-      {success ?? (
-        <div>{success}</div>
-      )}
+        {success && (
+          <div className="alert alert-success">{success}</div>
+        )}
 
-      <form onSubmit={handleSubmit}>
-        <input required type='text' onChange={(e) => setNickname(e.target.value.trim())} placeholder='Никнейм' disabled={loading || success} minLength='3' maxLength='30' />
-        <input required type='email' onChange={(e) => setEmail(e.target.value)} placeholder='Email' disabled={loading || success} />
-        <input required type='password' onChange={(e) => setPassword(e.target.value)} placeholder='Пароль' disabled={loading || success} />
-        <input required type='password' onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Повторите пароль' disabled={loading || success} />
-        <button type='submit' disabled={loading || success}>{loading? 'Регистрация..' : 'Зарегистрироваться'}</button>
-      </form>
-      <div>
-        <p>
-          Уже есть аккаунт?{' '}
-          <Link to='/login'>Войти</Link>
-        </p>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <input 
+              type='text' 
+              onChange={(e) => setNickname(e.target.value.trim())} 
+              placeholder='Никнейм' 
+              disabled={loading || !!success}
+              className="form-input"
+              minLength='3' 
+              maxLength='30'
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input 
+              type='email' 
+              onChange={(e) => setEmail(e.target.value)} 
+              placeholder='Email' 
+              disabled={loading || !!success}
+              className="form-input"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input 
+              type='password' 
+              onChange={(e) => setPassword(e.target.value)} 
+              placeholder='Пароль' 
+              disabled={loading || !!success}
+              className="form-input"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input 
+              type='password' 
+              onChange={(e) => setConfirmPassword(e.target.value)} 
+              placeholder='Повторите пароль' 
+              disabled={loading || !!success}
+              className="form-input"
+              required
+            />
+          </div>
+          <button 
+            type='submit' 
+            disabled={loading || !!success}
+            className="btn btn-primary btn-block"
+          >
+            {loading ? 'Регистрация...' : 'Зарегистрироваться'}
+          </button>
+        </form>
+        
+        <div className="auth-footer">
+          <p className="auth-link-text">
+            Уже есть аккаунт?{' '}
+            <Link to='/login' className="auth-link">Войти</Link>
+          </p>
+        </div>
       </div>
     </div>
   )

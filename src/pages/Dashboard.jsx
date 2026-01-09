@@ -33,21 +33,38 @@ const Dashboard = () => {
   }
 
   if (loading) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>Загрузка профиля...</div>
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Загрузка профиля...</p>
+      </div>
+    )
   }
 
   return (
-    <div>
-      <h1>Личный кабинет</h1>
-      {user && profile && (
-        <div>
-          <h2>Ваша информация:</h2>
-          <p><strong>Никнейм:</strong> {profile.nickname}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Дата регистрации:</strong> {new Date(user.created_at).toLocaleDateString()}</p>
-        </div>
-      )}
-
+    <div className="dashboard-container">
+      <div className="dashboard-card">
+        <h1 className="dashboard-title">Личный кабинет</h1>
+        {user && profile && (
+          <div className="profile-info">
+            <h2 className="profile-subtitle">Ваша информация:</h2>
+            <div className="info-grid">
+              <div className="info-item">
+                <span className="info-label">Никнейм:</span>
+                <span className="info-value">{profile.nickname}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Email:</span>
+                <span className="info-value">{user.email}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Дата регистрации:</span>
+                <span className="info-value">{new Date(user.created_at).toLocaleDateString()}</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

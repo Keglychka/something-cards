@@ -6,6 +6,10 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import GuidePage from "./pages/GuidePage"
+import GuideCreate from "./pages/GuideCreate"
+import './App.css'
+import ProtectedRouter from "./components/ProtectedRouter"
 
 function App() {
   return (
@@ -17,6 +21,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/guides/:id' element={<GuidePage />} />
+          <Route path='/guides/create' element={<ProtectedRoute><GuideCreate /></ProtectedRoute>} />
           <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
