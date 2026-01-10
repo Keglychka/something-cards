@@ -1,9 +1,9 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import { useAuth } from '../context/AuthContext'
-import { createGuide, PLATFORMS, CATEGORIES, DIFFICULTIES } from '../api/guideApi'
+import { fetchGuide, updateGuide, PLATFORMS, CATEGORIES, DIFFICULTIES } from '../api/guideApi'
 
-const GuideCreate = () => {
+const GuideUpdate = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -17,6 +17,31 @@ const GuideCreate = () => {
 
     const { user } = useAuth();
     const navigate = useNavigate();
+    const { id } = useParams();
+
+    useEffect(() => {
+        const loadGuide = async () => {
+            const { data, error } = await fetchGuide(id);
+
+            if(error) setError('Ошибка загрузки гайда: ', error);
+            if(data) {
+                setFormData({
+                    game_title: data.game_title || '',
+                    title: data.title || '',
+                    content: data.content || '',
+                    category: data.category || '',
+                    difficulty: data.difficulty || '',
+                    platform: data.platform || '',
+                })
+            }
+        }
+
+        if(id) loadGuide();
+        else {
+            setError('ID гайда не найден');
+            return;
+        }
+    }, [id])
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -38,7 +63,7 @@ const GuideCreate = () => {
         setError('');
 
         try {
-            const { data, error } = await createGuide(formData, user.id);
+            const { data, error } = await updateGuide(id, formData, user.id);
 
             if(error) {
                 setError(error);
@@ -46,7 +71,7 @@ const GuideCreate = () => {
                 navigate(`/guides/${data.id}`)
             }
         } catch (error) {
-            setError('Неожиданная ошибка во время создания гайда')
+            setError('Неожиданная ошибка во время обновления гайда')
         } finally {
             setLoading(false);
         }
@@ -181,9 +206,9 @@ const GuideCreate = () => {
                         {loading ? (
                             <>
                                 <span className="spinner"></span>
-                                Создание...
+                                Сохранение...
                             </>
-                        ) : 'Создать гайд'}
+                        ) : 'Сохранить изменения'}
                     </button>
                 </div>
             </form>
@@ -192,4 +217,4 @@ const GuideCreate = () => {
   )
 }
 
-export default GuideCreate
+export default GuideUpdate
