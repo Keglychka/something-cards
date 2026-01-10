@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { useAuth } from '../context/AuthContext'
-import { fetchGuide } from "../api/guideApi"
+import { fetchGuide, deleteGuide } from "../api/guideApi"
 import { supabase } from "../lib/supabase"
 
 const GuidePage = () => {
@@ -47,6 +47,18 @@ const GuidePage = () => {
         return;
       }
     }, [id])
+
+    const handleDelete = () => {
+      const confirmed = window.confirm('Вы точно хотите удалить данный гайд?')
+
+      if(confirmed) {
+        deleteGuide(id, user.id)
+          .then(res => {
+            if(!res.error) navigate('/')
+            else setError(res.error)
+          })
+      }
+    }
 
     if(loading) {
       return (
@@ -97,7 +109,7 @@ const GuidePage = () => {
         <div className="guide-header">
           <button 
             className="btn btn-secondary btn-back"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/')}
           >
             ← Назад
           </button>
@@ -167,12 +179,20 @@ const GuidePage = () => {
           </button>
           <div className="action-buttons">
             {user?.id === guide.user_id && (
-              <button 
-                className="btn btn-primary"
-                onClick={() => navigate(`/guides/${guide.id}/edit`)}
-              >
-                ✏️ Редактировать
-              </button>
+              <>
+                <button 
+                  className="btn btn-primary"
+                  onClick={() => navigate(`/guides/${guide.id}/edit`)}
+                >
+                  Редактировать
+                </button>
+                <button 
+                  className="btn btn-delete"
+                  onClick={handleDelete}
+                >
+                  Удалить
+                </button>
+              </>
             )}
           </div>
         </div>

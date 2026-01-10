@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"
 import { supabase } from "../lib/supabase";
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -30,6 +33,10 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
+  }
+
+  const handleChangePassword = () => {
+    alert('Функция "Сменить пароль" в разработке');
   }
 
   if (loading) {
@@ -61,6 +68,22 @@ const Dashboard = () => {
                 <span className="info-label">Дата регистрации:</span>
                 <span className="info-value">{new Date(user.created_at).toLocaleDateString()}</span>
               </div>
+            </div>
+
+            <div className="dashboard-buttons">
+              <button 
+                className="dashboard-btn btn-my-guides"
+                onClick={() => navigate('/my-guides')}
+              >
+                <span className="btn-text">Мои гайды</span>
+              </button>
+              
+              <button 
+                className="dashboard-btn btn-change-password"
+                onClick={handleChangePassword}
+              >
+                <span className="btn-text">Сменить пароль</span>
+              </button>
             </div>
           </div>
         )}
