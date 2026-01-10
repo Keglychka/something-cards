@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"
 import { supabase } from "../lib/supabase";
+import ChangePasswordModal from "../components/ChangePasswordModal";
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
 
   useEffect(() => {
     if(user) {
@@ -33,10 +35,6 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  }
-
-  const handleChangePassword = () => {
-    alert('Функция "Сменить пароль" в разработке');
   }
 
   if (loading) {
@@ -80,10 +78,20 @@ const Dashboard = () => {
               
               <button 
                 className="dashboard-btn btn-change-password"
-                onClick={handleChangePassword}
+                onClick={() => setShowPasswordModal(true)}
               >
                 <span className="btn-text">Сменить пароль</span>
               </button>
+
+              <ChangePasswordModal 
+                isOpen={showPasswordModal}
+                onClose={() => setShowPasswordModal(false)}
+                onSuccess={() => {
+                  alert('Пароль успешно изменен! Рекомендуется перезайти')
+                  signOut()
+                }}
+              />
+
             </div>
           </div>
         )}
