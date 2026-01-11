@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useAuth } from '../context/AuthContext'
 import { fetchGuide, deleteGuide } from "../api/guideApi"
 import { supabase } from "../lib/supabase"
+import FavoritesButton from "../components/FavoritesButton"
 
 const GuidePage = () => {
     const { id } = useParams();
@@ -107,6 +108,9 @@ const GuidePage = () => {
     <div className="guide-page-container">
       <div className="guide-page-card">
         <div className="guide-header">
+          <div className="guide-favorites-btn">
+            <FavoritesButton guideId={guide.id} />
+          </div>
           <button 
             className="btn btn-secondary btn-back"
             onClick={() => navigate('/')}

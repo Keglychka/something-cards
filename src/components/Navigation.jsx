@@ -44,6 +44,7 @@ const Navigation = () => {
                         <span className="navbar-greeting">Привет, <span className="username">{profile?.nickname || user.email}</span></span>
                         <Link to='/guides/create' className='navbar-link btn-create'>Создать гайд</Link>
                         <Link to='/dashboard' className="navbar-link btn-profile">Профиль</Link>
+                        <Link to='/guides/favorites' className='navbar-link favorites'>Избранное</Link>
                         <button onClick={handleLogout} className="btn-logout">Выйти</button>
                     </div>
                 ) : (

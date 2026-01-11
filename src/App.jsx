@@ -10,6 +10,7 @@ import GuidePage from "./pages/GuidePage"
 import GuideCreate from "./pages/GuideCreate"
 import GuideUpdate from "./pages/GuideUpdate"
 import UserGuides from "./pages/UserGuides"
+import Favorites from "./pages/Favorites"
 import './App.css'
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path='/my-guides' element={<ProtectedRoute><UserGuides /></ProtectedRoute>} />
           <Route path='/guides/create' element={<ProtectedRoute><GuideCreate /></ProtectedRoute>} />
           <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/guides/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
